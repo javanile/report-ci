@@ -26,6 +26,9 @@
       docker_container:
         name: router
         image: staticfloat/nginx-certbot
+        published_ports:
+          - 80:80
+          - 443:443
         volumes:
           - /etc/nginx/conf.d/:/etc/nginx/conf.d/
           - /etc/letsencrypt/:/etc/letsencrypt/
