@@ -7,3 +7,6 @@ services:
       - ./:/var/www/html
     ports:
       - 8080:80
+
+  test:
+    image: mysql

@@ -1,0 +1,30 @@
+---
+- hosts: all
+  tasks:
+
+    - name: Project setup and update
+      git:
+        repo: https://github.com/javanile/report-ci.git
+        dest: '{{ working_dir }}'
+        version: master
+        force: yes
+
+    - name: Creates directory
+      file: { path: '/etc/nginx/conf.d/', state: directory }
+      become: true
+
+    - name: Creates directory
+      file: { path: '/etc/letsencrypt/', state: directory }
+      become: true
+
+    - name: Copy router config
+      command: cp env/{{ inventory_hostname }}/report-ci.conf /etc/nginx/conf.d/
+      args: { chdir: '{{ working_dir }}' }
+
+    - name: Router
+      docker_container:
+        name: router
+        image: staticfloat/nginx-certbot
+        volumes:
+          - /etc/nginx/conf.d/:/etc/nginx/conf.d/
+          - /etc/letsencrypt/:/etc/letsencrypt/
