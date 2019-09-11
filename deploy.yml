@@ -20,6 +20,7 @@
     - name: Copy router config
       command: cp env/{{ inventory_hostname }}/report-ci.conf /etc/nginx/conf.d/
       args: { chdir: '{{ working_dir }}' }
+      become: true
 
     - name: Router
       docker_container:
