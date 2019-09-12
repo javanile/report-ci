@@ -13,4 +13,4 @@ services:
 networks:
   router:
     external:
-      name: internet
+      name: router
