@@ -7,7 +7,7 @@
       become: true
 
     - name: Stop router
-      docker_container: { name: router, state: stopped }
+      docker_container: {  name: router, state: stopped  }
 
     - name: Update certificates
       with_items: '{{ certbot_domains }}'
