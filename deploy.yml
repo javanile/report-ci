@@ -17,6 +17,10 @@
       file: { path: '/etc/letsencrypt/', state: directory }
       become: true
 
+    - name: Creates directory
+      file: { path: '/var/log/letsencrypt/', state: directory }
+      become: true
+
     - name: Copy router config
       command: cp env/{{ inventory_hostname }}/report-ci.conf /etc/nginx/conf.d/
       args: { chdir: '{{ working_dir }}' }
@@ -38,3 +42,5 @@
         volumes:
           - /etc/nginx/conf.d/:/etc/nginx/conf.d/
           - /etc/letsencrypt/:/etc/letsencrypt/
+          - /var/log/letsencrypt/:/var/log/letsencrypt/
+
