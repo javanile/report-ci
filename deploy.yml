@@ -18,8 +18,8 @@
       become: true
 
     - name: Creates directory
-          file: { path: '/var/log/nginx/', state: directory }
-          become: true
+      file: { path: '/var/log/nginx/', state: directory }
+      become: true
 
     - name: Creates directory
       file: { path: '/var/log/letsencrypt/', state: directory }
