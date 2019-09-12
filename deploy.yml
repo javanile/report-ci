@@ -18,6 +18,10 @@
       become: true
 
     - name: Creates directory
+          file: { path: '/var/log/nginx/', state: directory }
+          become: true
+
+    - name: Creates directory
       file: { path: '/var/log/letsencrypt/', state: directory }
       become: true
 
@@ -43,4 +47,5 @@
           - /etc/nginx/conf.d/:/etc/nginx/conf.d/
           - /etc/letsencrypt/:/etc/letsencrypt/
           - /var/log/letsencrypt/:/var/log/letsencrypt/
+          - /var/log/nginx/:/var/log/nginx/
 
