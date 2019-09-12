@@ -6,6 +6,10 @@
       file: { path: '/etc/letsencrypt/', state: directory }
       become: true
 
+    - name: Create Let's Encrypt log directory
+      file: { path: '/var/log/letsencrypt/', state: directory }
+      become: true
+
     - name: Stop router
       docker_container: { name: router, state: stopped }
 
@@ -15,7 +19,9 @@
         name: certbot
         image: certbot/certbot
         auto_remove: yes
-        command: certonly --standalone --non-interactive --agree-tos -m {{ certbot_email }} -d {{ item }}
+        force_kill: yes
+        command: certonly --standalone --non-interactive --agree-tos -m {{certbot_email}} -d {{item}}
+        volumes: [ '/etc/letsencrypt/', '/var/log/letsencrypt/' ]
 
     - name: Start router
       docker_container: { name: router, state: started }
