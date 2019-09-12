@@ -30,12 +30,10 @@
       docker_network:
         name: router
 
-    - debug:
-        var: output
-
     - name: Router
       docker_container:
         name: router
+        state: started
         recreate: true
         image: nginx
         published_ports: [ '80:80', '443:443' ]
