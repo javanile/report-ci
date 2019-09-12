@@ -22,14 +22,13 @@
         image: certbot/certbot
         published_ports: [ '80:80', '443:443' ]
         command: certonly --standalone --non-interactive --agree-tos -m {{certbot_email}} -d {{item}}
-        volumes: [ '/etc/letsencrypt/', '/var/log/letsencrypt/' ]
+        volumes:
+          - /etc/letsencrypt/:/etc/letsencrypt/
+          - /var/log/letsencrypt/:/var/log/letsencrypt/
       register: result
 
     - debug:
         var: result
-
-    - name: Stop certbot
-      docker_container: { name: certbot, state: stopped }
 
     - name: Start router
       docker_container: { name: router, state: started }
