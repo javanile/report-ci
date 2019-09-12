@@ -31,7 +31,7 @@
         name: router
 
     - name: ping
-      ping:
+      docker_compose:
 
     - name: Router
       docker_container:
