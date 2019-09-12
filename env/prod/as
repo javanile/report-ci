@@ -11,6 +11,6 @@ server {
     ssl_certificate_key /etc/letsencrypt/live/report-ci.org/privkey.pem;
 
     location / {
-
+        return 200 'ok!';
     }
 }
