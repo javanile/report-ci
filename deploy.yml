@@ -30,6 +30,11 @@
       docker_network:
         name: router
 
+    - name: 'up special'
+      docker_compose:
+        project_src: '{{ working_dir }}'
+      register: out
+
     - name: Router
       docker_container:
         name: router
@@ -42,7 +47,3 @@
           - /var/log/nginx/:/var/log/nginx/
           - /etc/letsencrypt/:/etc/letsencrypt/
 
-    - name: 'up special'
-      docker_compose:
-        project_src: '{{ working_dir }}'
-      register: out
