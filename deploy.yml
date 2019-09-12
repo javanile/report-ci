@@ -45,3 +45,4 @@
     - name: up special
       docker_compose:
         project_src: '{{working_dir}}'
+      register: out
