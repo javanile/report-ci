@@ -15,7 +15,7 @@
         image: certbot/certbot
         auto_remove: yes
         command: certonly --standalone --non-interactive --agree-tos -m {{ certbot_email }} -d {{ item }}
-      loop: {{ certbot_domains }}
+      loop: '{{ certbot_domains }}'
 
     - name: Start router
       docker_container: { name: router, state: started }
