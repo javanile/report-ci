@@ -34,7 +34,7 @@
       docker_container:
         name: router
         state: started
-        recreate: true
+        #recreate: true
         image: nginx
         published_ports: [ '80:80', '443:443' ]
         networks: [{ name: router }]
