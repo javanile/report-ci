@@ -42,7 +42,7 @@
           - /var/log/nginx/:/var/log/nginx/
           - /etc/letsencrypt/:/etc/letsencrypt/
 
-    - name: up special
+    - name: 'up special'
       docker_compose:
-        project_src: '{{working_dir}}'
+        project_src: '{{ working_dir }}'
       register: out
