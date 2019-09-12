@@ -1,12 +1,16 @@
-version: '3.7'
+version: '3.5'
 
 services:
   report-ci:
     build: ./
+    networks:
+      router:
+        aliases:
+          - report-ci
     volumes:
       - ./:/var/www/html
-    ports:
-      - 8080:80
 
-  test:
-    image: mysql
+networks:
+  router:
+    external:
+      name: router

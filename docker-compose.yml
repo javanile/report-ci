@@ -3,14 +3,7 @@ version: '3.5'
 services:
   report-ci:
     build: ./
-    networks:
-      router:
-        aliases:
-          - report-ci
+    ports:
+      - 8888:80
     volumes:
       - ./:/var/www/html
-
-networks:
-  router:
-    external:
-      name: router

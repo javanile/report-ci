@@ -5,7 +5,7 @@
     - name: Project setup and update
       git:
         repo: https://github.com/javanile/report-ci.git
-        dest: '{{ working_dir }}'
+        dest: '{{working_dir}}'
         version: master
         force: yes
 
@@ -23,7 +23,7 @@
 
     - name: Copy router config
       command: cp env/{{ inventory_hostname }}/report-ci.conf /etc/nginx/conf.d/
-      args: { chdir: '{{ working_dir }}' }
+      args: { chdir: '{{working_dir}}' }
       become: true
 
     - name: Create a network
@@ -45,7 +45,7 @@
 
     - name: Run `docker-compose up` again
       docker_service:
-        project_src: '{{ working_dir }}'
+        project_src: '{{working_dir}}'
         build: no
       register: output
 
