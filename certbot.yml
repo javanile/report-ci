@@ -18,8 +18,6 @@
       docker_container:
         name: certbot
         image: certbot/certbot
-        auto_remove: yes
-        force_kill: yes
         command: certonly --standalone --non-interactive --agree-tos -m {{certbot_email}} -d {{item}}
         volumes: [ '/etc/letsencrypt/', '/var/log/letsencrypt/' ]
 
