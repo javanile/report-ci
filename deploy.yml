@@ -31,8 +31,8 @@
         name: router
 
     - name: Run `docker-compose up` again
-      docker_compose:
-        project_src: flask
+      docker_service:
+        project_src: '{{ working_dir }}'
         build: no
       register: output
 
