@@ -35,7 +35,7 @@
         name: router
         recreate: true
         image: staticfloat/nginx-certbot
-        env: { CERTBOT_EMAIL: '{{ certbot_email }}' }
+        env: { CERTBOT_EMAIL: '{{ certbot_email }}', IS_STAGING: 1 }
         published_ports: [ '80:80', '443:443' ]
         networks:
           - name: router
