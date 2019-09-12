@@ -42,6 +42,6 @@
           - /var/log/nginx/:/var/log/nginx/
           - /etc/letsencrypt/:/etc/letsencrypt/
 
-    - name: up
+    - name: up special
       docker_compose:
         project_src: '{{working_dir}}'
