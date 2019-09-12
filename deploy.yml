@@ -25,6 +25,7 @@
     - name: Router
       docker_container:
         name: router
+        recreate: true
         image: staticfloat/nginx-certbot
         env: { CERTBOT_EMAIL: '{{ certbot_email }}' }
         published_ports: [ '80:80', '443:443' ]
