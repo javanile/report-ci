@@ -8,3 +8,5 @@ RUN curl -sL https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 RUN sed -e 's!DocumentRoot /var/www/html!DocumentRoot /var/www/html/public!' \
         -ri /etc/apache2/sites-available/000-default.conf
+
+RUN a2enmod rewrite

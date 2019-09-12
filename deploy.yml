@@ -9,6 +9,16 @@
         version: master
         force: yes
 
+    - name: Update dependencies
+      docker_container:
+        name: composer
+        detach: no
+        cleanup: yes
+        image: composer:1.9.0
+        command: update
+        volumes:
+          - '{{working_dir}}:/app'
+
     - name: Creates directory
       file: { path: '/etc/nginx/conf.d/', state: directory }
       become: true
@@ -51,6 +61,6 @@
       docker_service:
         files: docker-compose.{{inventory_hostname}}.yml
         project_src: '{{working_dir}}'
-        build: no
-      register: output
+        recreate: always
+        build: yes
 
