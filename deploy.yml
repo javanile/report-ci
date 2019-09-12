@@ -22,6 +22,10 @@
       args: { chdir: '{{ working_dir }}' }
       become: true
 
+    - name: Create a network
+      docker_network:
+        name: router
+
     - name: Router
       docker_container:
         name: router
