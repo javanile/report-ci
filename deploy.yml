@@ -37,4 +37,7 @@
         image: nginx
         published_ports: [ '80:80', '443:443' ]
         networks: [{ name: router }]
-        volumes: [ '/etc/nginx/conf.d/', '/var/log/nginx/', '/etc/letsencrypt/' ]
+        volumes:
+          - /etc/nginx/conf.d/:/etc/nginx/conf.d/
+          - /var/log/nginx/:/var/log/nginx/
+          - /etc/letsencrypt/:/etc/letsencrypt/
