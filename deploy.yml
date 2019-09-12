@@ -14,15 +14,11 @@
       become: true
 
     - name: Creates directory
-      file: { path: '/etc/letsencrypt/', state: directory }
-      become: true
-
-    - name: Creates directory
       file: { path: '/var/log/nginx/', state: directory }
       become: true
 
     - name: Creates directory
-      file: { path: '/var/log/letsencrypt/', state: directory }
+      file: { path: '/etc/letsencrypt/', state: directory }
       become: true
 
     - name: Copy router config
@@ -39,14 +35,6 @@
         name: router
         recreate: true
         image: nginx
-        #image: staticfloat/nginx-certbot
-        env: { CERTBOT_EMAIL: '{{ certbot_email }}', IS_STAGING: 1 }
         published_ports: [ '80:80', '443:443' ]
-        networks:
-          - name: router
-        volumes:
-          - /etc/nginx/conf.d/:/etc/nginx/conf.d/
-          - /etc/letsencrypt/:/etc/letsencrypt/
-          - /var/log/letsencrypt/:/var/log/letsencrypt/
-          - /var/log/nginx/:/var/log/nginx/
-
+        networks: [{ name: router }]
+        volumes: [ '/etc/nginx/conf.d/', '/var/log/nginx/', '/etc/letsencrypt/' ]
