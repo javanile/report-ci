@@ -6,7 +6,7 @@
  * Understandably, you need to replace 'path/to/hybridauth' with the real path to this script.
  */
 $config = [
-    'callback' => 'https://path/to/hybridauth/examples/example_07/callback.php',
+    'callback' => 'https://report-ci.org/callback.php',
     'providers' => [
         'GitHub' => [
             'enabled' => true,
