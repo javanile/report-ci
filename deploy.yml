@@ -22,7 +22,7 @@
       become: true
 
     - name: Copy router config
-      command: cp env/{{ inventory_hostname }}/report-ci.conf /etc/nginx/conf.d/
+      command: cp env/{{inventory_hostname}}/report-ci.conf /etc/nginx/conf.d/
       args: { chdir: '{{working_dir}}' }
       become: true
 
@@ -43,8 +43,13 @@
           - /var/log/nginx/:/var/log/nginx/
           - /etc/letsencrypt/:/etc/letsencrypt/
 
+    - name: Update docker-compose file
+      command: cp env/{{inventory_hostname}}/docker-compose.yml ./docker-compose.{{inventory_hostname}}.yml
+      args: { chdir: '{{working_dir}}' }
+
     - name: Run `docker-compose up` again
       docker_service:
+        files: docker-compose.{{inventory_hostname}}.yml
         project_src: '{{working_dir}}'
         build: no
       register: output
