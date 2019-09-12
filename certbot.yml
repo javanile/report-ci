@@ -18,6 +18,7 @@
       docker_container:
         name: certbot
         image: certbot/certbot
+        published_ports: [ '80:80', '443:443' ]
         command: certonly --standalone --non-interactive --agree-tos -m {{certbot_email}} -d {{item}}
         volumes: [ '/etc/letsencrypt/', '/var/log/letsencrypt/' ]
 
