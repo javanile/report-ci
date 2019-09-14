@@ -1,22 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Application\Actions;
+namespace App\Action;
 
 use App\Domain\DomainException\DomainRecordNotFoundException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Log\LoggerInterface;
 use Slim\Exception\HttpBadRequestException;
 use Slim\Exception\HttpNotFoundException;
 
 abstract class Action
 {
-    /**
-     * @var LoggerInterface
-     */
-    protected $logger;
-
     /**
      * @var Request
      */
@@ -31,14 +25,6 @@ abstract class Action
      * @var array
      */
     protected $args;
-
-    /**
-     * @param LoggerInterface $logger
-     */
-    public function __construct(LoggerInterface $logger)
-    {
-        $this->logger = $logger;
-    }
 
     /**
      * @param Request  $request

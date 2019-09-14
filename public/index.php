@@ -1,61 +1,73 @@
 <?php
-/**
- * Build a simple HTML page with multiple providers, opening provider authentication in a pop-up.
- */
+declare(strict_types=1);
 
-require __DIR__.'/../vendor/autoload.php';
-require 'config.php';
+use App\Handler\HttpErrorHandler;
+use App\Handler\ShutdownHandler;
+use App\ResponseEmitter\ResponseEmitter;
+use DI\ContainerBuilder;
+use Slim\Factory\AppFactory;
+use Slim\Factory\ServerRequestCreatorFactory;
 
-use Hybridauth\Hybridauth;
+require __DIR__ . '/../vendor/autoload.php';
 
-$hybridauth = new Hybridauth($config);
-$adapters = $hybridauth->getConnectedAdapters();
-?>
+// Instantiate PHP-DI ContainerBuilder
+$containerBuilder = new ContainerBuilder();
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Example 07</title>
+if (false) { // Should be set to true in production
+	$containerBuilder->enableCompilation(__DIR__ . '/../var/cache');
+}
 
-    <script>
-        function auth_popup( provider ){
-            // replace 'path/to/hybridauth' with the real path to this script
-            var authWindow = window.open('https://report-ci.org/callback.php?provider='+provider, 'authWindow', 'width=600,height=400,scrollbars=yes');
-            return false;
-        }
-    </script>
+// Set up settings
+$settings = require __DIR__ . '/../app/settings.php';
+$settings($containerBuilder);
 
-</head>
-<body>
-<h1>Sign in</h1>
+// Set up dependencies
+$dependencies = require __DIR__ . '/../app/dependencies.php';
+$dependencies($containerBuilder);
 
-<ul>
+// Set up repositories
+$repositories = require __DIR__ . '/../app/repositories.php';
+$repositories($containerBuilder);
 
-    <?php foreach ($hybridauth->getProviders() as $name) : ?>
-        <?php if (!isset($adapters[$name])) : ?>
-            <li>
-                <a href="#" onclick="javascript:auth_popup('<?php print $name ?>');">
-                    Sign in with <?php print $name ?>
-                </a>
-            </li>
-        <?php endif; ?>
-    <?php endforeach; ?>
+// Build PHP-DI Container instance
+$container = $containerBuilder->build();
 
-</ul>
+// Instantiate the app
+AppFactory::setContainer($container);
+$app = AppFactory::create();
+$callableResolver = $app->getCallableResolver();
 
-<?php if ($adapters) : ?>
-    <h1>You are logged in:</h1>
-    <ul>
-        <?php foreach ($adapters as $name => $adapter) : ?>
-            <li>
-                <strong><?php print $adapter->getUserProfile()->displayName; ?></strong> from
-                <i><?php print $name; ?></i>
-                <span>(<a href="<?php print $config['callback'] . "?logout={$name}"; ?>">Log Out</a>)</span>
-            </li>
-        <?php endforeach; ?>
-    </ul>
-<?php endif; ?>
+// Register middleware
+$middleware = require __DIR__ . '/../app/middleware.php';
+$middleware($app);
 
-</body>
-</html>
+// Register routes
+$routes = require __DIR__ . '/../app/routes.php';
+$routes($app);
+
+/** @var bool $displayErrorDetails */
+$displayErrorDetails = $container->get('settings')['displayErrorDetails'];
+
+// Create Request object from globals
+$serverRequestCreator = ServerRequestCreatorFactory::create();
+$request = $serverRequestCreator->createServerRequestFromGlobals();
+
+// Create Error Handler
+$responseFactory = $app->getResponseFactory();
+$errorHandler = new HttpErrorHandler($callableResolver, $responseFactory);
+
+// Create Shutdown Handler
+$shutdownHandler = new ShutdownHandler($request, $errorHandler, $displayErrorDetails);
+register_shutdown_function($shutdownHandler);
+
+// Add Routing Middleware
+$app->addRoutingMiddleware();
+
+// Add Error Middleware
+$errorMiddleware = $app->addErrorMiddleware($displayErrorDetails, false, false);
+$errorMiddleware->setDefaultErrorHandler($errorHandler);
+
+// Run App & Emit Response
+$response = $app->handle($request);
+$responseEmitter = new ResponseEmitter();
+$responseEmitter->emit($response);
