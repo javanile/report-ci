@@ -8,6 +8,7 @@ use Monolog\Processor\UidProcessor;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Slim\Views\Twig;
+use Hybridauth\Hybridauth;
 
 return function (ContainerBuilder $containerBuilder) {
     $containerBuilder->addDefinitions([
@@ -38,6 +39,13 @@ return function (ContainerBuilder $containerBuilder) {
             ]);
 
             return $view;
+        },
+
+        /**
+         *
+         */
+        Hybridauth::class => function (ContainerInterface $c) {
+            return new Hybridauth(include __DIR__.'/hybridauth.php');
         },
     ]);
 };

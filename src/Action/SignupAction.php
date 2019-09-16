@@ -4,12 +4,11 @@ declare(strict_types=1);
 namespace App\Action;
 
 use App\Action\Action;
+use App\Repository\AccessRepository;
 use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Container\ContainerInterface;
-use Psr\Log\LoggerInterface;
 use Slim\Views\Twig;
 
-class HomeAction extends Action
+class SignupAction extends Action
 {
     /**
      * @param LoggerInterface $logger
@@ -17,10 +16,10 @@ class HomeAction extends Action
      */
     public function __construct(
         Twig $twig,
-        ContainerInterface $container
+        AccessRepository $accessRepository
     ) {
         $this->twig = $twig;
-        $this->siteUrl = $container->get('settings')['siteUrl'];
+        $this->accessReposotory = $accessRepository;
     }
 
     /**
@@ -28,8 +27,8 @@ class HomeAction extends Action
      */
     public function action() : Response
     {
-        return $this->twig->render($this->response, 'home.twig', [
-            'title' => ' ',
+        return $this->twig->render($this->response, 'signup.twig', [
+            'callbackUrl' => $this->accessRepository->getCallbackUrl(),
         ]);
     }
 }

@@ -103,4 +103,13 @@ abstract class Action
         $this->response->getBody()->write($json);
         return $this->response->withHeader('Content-Type', 'application/json');
     }
+
+    /**
+     * @param ActionPayload $payload
+     * @return Response
+     */
+    protected function redirect($location): Response
+    {
+        return $this->response->withHeader('Location', $location)->withStatus(302);
+    }
 }

@@ -14,6 +14,7 @@ return function (ContainerBuilder $containerBuilder) {
                 'path' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../logs/app.log',
                 'level' => Logger::DEBUG,
             ],
+            'siteUrl' => isset($_ENV['SITE_URL']) ? $_ENV['SITE_URL'] : 'http://localhost:8888',
         ],
     ]);
 };

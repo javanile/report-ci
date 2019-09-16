@@ -24,6 +24,10 @@ class ExploreAction extends Action
      */
     public function action() : Response
     {
+        if (empty($this->args['resource'])) {
+            return $this->redirect('/explore/github/francescobianco');
+        }
+
         $a = 'Hello World!!!';
 
         return $this->twig->render($this->response, 'explore.twig', [

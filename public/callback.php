@@ -4,7 +4,7 @@
  */
 
 require __DIR__.'/../vendor/autoload.php';
-require 'config.php';
+$config = require __DIR__.'/../app/hybridauth.php';
 
 use Hybridauth\Exception\Exception;
 use Hybridauth\Hybridauth;
