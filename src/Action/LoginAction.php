@@ -35,7 +35,7 @@ class LoginAction extends Action
     public function action() : Response
     {
         if ($this->accessRepository->isConnected()) {
-            return $this->redirect('/explore');
+            return $this->redirect($this->accessRepository->getDefaultSpaceUrl());
         }
 
         return $this->twig->render($this->response, 'login.twig', [
