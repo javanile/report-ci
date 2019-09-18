@@ -1,6 +1,7 @@
 version: '3.5'
 
 services:
+
   report-ci:
     build: ./
     ports:
@@ -13,3 +14,4 @@ services:
       - GITLAB_SECRET=bdb76cbb33e8d605510c41bf64bf46c29799297b0ec0b6691f2b45b67b9b1862
     volumes:
       - ./:/var/www/html
+

@@ -28,6 +28,8 @@ class UploadAction extends Action
      */
     public function action() : Response
     {
+        var_dump($_FILES);
+
         return $this->respondWithData(['su' => 1]);
     }
 }

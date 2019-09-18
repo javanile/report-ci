@@ -6,6 +6,12 @@ RUN apt-get update && \
 
 RUN curl -sL https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+RUN curl -sL https://github.com/squizlabs/PHP_CodeSniffer/releases/download/2.8.1/phpcs.phar > /usr/local/bin/phpcs \
+    && chmod +x /usr/local/bin/phpcs
+
+RUN curl -sL https://github.com/phpmd/phpmd/releases/download/2.7.0/phpmd.phar > /usr/local/bin/phpmd \
+    && chmod +x /usr/local/bin/phpmd
+
 RUN sed -e 's!DocumentRoot /var/www/html!DocumentRoot /var/www/html/public!' \
         -ri /etc/apache2/sites-available/000-default.conf
 

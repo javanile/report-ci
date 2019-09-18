@@ -11,6 +11,11 @@ use Slim\Views\Twig;
 class SignupAction extends Action
 {
     /**
+     *
+     */
+    protected $accessRepository;
+
+    /**
      * @param LoggerInterface $logger
      * @param UserRepository  $userRepository
      */
@@ -19,7 +24,7 @@ class SignupAction extends Action
         AccessRepository $accessRepository
     ) {
         $this->twig = $twig;
-        $this->accessReposotory = $accessRepository;
+        $this->accessRepository = $accessRepository;
     }
 
     /**
